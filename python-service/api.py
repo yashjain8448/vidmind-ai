@@ -54,9 +54,10 @@
 #     }
 
 from fastapi import FastAPI
+from main import run_pipeline
 
 app = FastAPI()
 
 @app.get("/")
 def home():
-    return {"message": "Hello Render"}
+    return {"message": "working"}
