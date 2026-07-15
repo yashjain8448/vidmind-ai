@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const PYTHON_API = "http://127.0.0.1:8000";
+const PYTHON_API = process.env.PYTHON_SERVICE_URL || "http://localhost:8000";
 
 const processVideo = async (chatId, source, language = "english") => {
   const response = await axios.post(`${PYTHON_API}/process`, {
