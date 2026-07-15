@@ -53,6 +53,3 @@ def chat_with_video(request: ChatRequest):
     return {
         "answer": answer
     }
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
