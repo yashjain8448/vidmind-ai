@@ -1,9 +1,19 @@
+print("STEP 1")
+
 from fastapi import FastAPI
-import uvicorn
+print("STEP 2")
+
 from main import run_pipeline
+print("STEP 3")
+
 from pydantic import BaseModel
+print("STEP 4")
+
 from core.rag_engine import ask_question
+print("STEP 5")
+
 from fastapi.middleware.cors import CORSMiddleware
+print("STEP 6")
 
 app = FastAPI()
 

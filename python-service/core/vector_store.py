@@ -10,16 +10,30 @@ EMBEDDING_MODEL  = "all-MiniLM-L6-v2"
 QDRANT_URL = os.getenv("QDRANT_URL")
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 
-client = QdrantClient(
-    url=QDRANT_URL,
-    api_key=QDRANT_API_KEY,
-)
+_client = None
+_embedding_model = None
+
+def get_client():
+    global _client
+
+    if _client is None:
+        _client = QdrantClient(
+            url=os.getenv("QDRANT_URL"),
+            api_key=os.getenv("QDRANT_API_KEY"),
+        )
+
+    return _client
 
 def get_embeddings_model():
-    return HuggingFaceEmbeddings(
-        model_name=EMBEDDING_MODEL,
-        model_kwargs={"device": "cpu"} 
-    )
+    global _embedding_model
+
+    if _embedding_model is None:
+        _embedding_model = HuggingFaceEmbeddings(
+            model_name=EMBEDDING_MODEL,
+            model_kwargs={"device": "cpu"},
+        )
+
+    return _embedding_model
 
 
 def create_vector_store(transcript: str, chat_id: str):
@@ -44,7 +58,7 @@ def create_vector_store(transcript: str, chat_id: str):
     collection_name = f"chat_{chat_id}"
 
     # Create collection if it doesn't exist
-    collections = client.get_collections().collections
+    collections = get_client().get_collections().collections
 
     vector_size = len(
         embedding_model.embed_query("hello")
@@ -52,7 +66,7 @@ def create_vector_store(transcript: str, chat_id: str):
 
     if collection_name not in [c.name for c in collections]:
 
-        client.create_collection(
+        get_client().create_collection(
             collection_name=collection_name,
             vectors_config=VectorParams(
                 size=vector_size,
@@ -77,7 +91,7 @@ def load_vector_store(chat_id: str):
     collection_name = f"chat_{chat_id}"
 
     vector_store = QdrantVectorStore(
-        client=client,
+        client=get_client(),
         collection_name=collection_name,
         embedding=embedding_model,
     )
