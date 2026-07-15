@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import uvicorn
 from main import run_pipeline
 from pydantic import BaseModel
 from core.rag_engine import ask_question
@@ -53,3 +54,5 @@ def chat_with_video(request: ChatRequest):
         "answer": answer
     }
 
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
