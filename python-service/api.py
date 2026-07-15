@@ -1,14 +1,25 @@
 from fastapi import FastAPI
 from main import run_pipeline
 from pydantic import BaseModel
-from core.rag_engine import load_rag_chain, ask_question
+from core.rag_engine import ask_question
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "https://YOUR-VERCEL-DOMAIN.vercel.app",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ProcessRequest(BaseModel):
     chatId: str
     source: str
-    language: str = "english"
 
 @app.get("/")
 def home():
