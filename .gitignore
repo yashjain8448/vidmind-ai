@@ -1,0 +1,35 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+.env.local
+
+# Downloads
+downloads/
+
+# Old Chroma vectors
+storage/
+
+# Logs
+logs/
+*.log
+
+# Build
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
