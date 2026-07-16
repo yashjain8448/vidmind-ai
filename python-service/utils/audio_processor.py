@@ -43,7 +43,17 @@ def download_youtube_audio(url :str) -> str:
     # Download the audio and convert it to wav format
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
-        filename = ydl.prepare_filename(info).replace('.webm', '.wav').replace('.m4a', '.wav')
+
+        print("Prepared filename:", ydl.prepare_filename(info))
+        print("Download directory:", DOWNLOAD_DIR)
+        print("Files after download:", os.listdir(DOWNLOAD_DIR))
+
+        base = os.path.splitext(ydl.prepare_filename(info))[0]
+        filename = base + ".wav"
+
+    print("Expected wav:", filename)
+    print("WAV exists:", os.path.exists(filename))
+    print("Returning:", filename)
 
     return filename
 
