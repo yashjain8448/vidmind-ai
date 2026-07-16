@@ -16,14 +16,28 @@ def download_youtube_audio(url :str) -> str:
 
     # yt-dlp options to download the best audio quality and convert it to wav format
     ydl_opts = {
-        'format': 'bestaudio/best', # Download the best available audio quality
-        'outtmpl': output_path,
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'wav', # whisper works best with wav files
-            'preferredquality': '192', # audio quality
-        }],
+        "format": "bestaudio/best",
+        "outtmpl": output_path,
+
         "quiet": True,
+        "noplaylist": True,
+
+        "extractor_args": {
+            "youtube": {
+                "player_client": ["android", "web"]
+            }
+        },
+
+        "http_headers": {
+            "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/138.0.0.0 Safari/537.36"
+        },
+
+        "postprocessors": [{
+            "key": "FFmpegExtractAudio",
+            "preferredcodec": "wav",
+            "preferredquality": "192",
+        }]
     }
 
     # Download the audio and convert it to wav format
