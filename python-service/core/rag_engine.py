@@ -26,19 +26,28 @@ def build_rag_chain(transcript: str, chat_id: str):
     prompt = ChatPromptTemplate.from_messages(
         [(
             "system",
-            """You are an expert video assistant. Answer the user's questions
-        based ONLY on the video transcript summaries and context provided below.
+            """You are an expert video assistant.
 
-        If the answer is not found in the provided context, say:
-        "I could not find this information in the video transcript summaries."
+            Answer the user's questions using ONLY the provided video transcript context.
 
-        Do not make up information or use external knowledge.
+            Rules:
+            - Do NOT use Markdown.
+            - Do NOT use **bold**, *italics*, headings, code blocks, or special formatting.
+            - Respond in plain text only.
+            - Use short paragraphs when needed.
+            - If listing multiple points, use simple numbered lists (1., 2., 3.) or hyphens (-).
+            - Do not use emojis.
+            - Do not use external knowledge.
+            - If the answer is not present in the provided context, reply exactly:
+            "I could not find this information in the video transcript."
 
-        Always be concise, accurate, and relevant. If the video mentions a speaker,
-        creator, or presenter, clearly attribute statements to them when appropriate.
+            Always answer in a way that looks like a normal chat response.
+            Avoid unnecessary formatting.
+            Keep paragraphs short and readable.
+            If the video mentions a speaker or presenter, attribute statements appropriately.
 
-        Context from video transcript summaries:
-        {context}"""
+            Video Context:
+            {context}"""
         ), ("human", "{question}")]
     )
 
@@ -64,19 +73,28 @@ def load_rag_chain(chat_id: str):
     prompt = ChatPromptTemplate.from_messages(
         [(
             "system",
-            """You are an expert video assistant. Answer the user's questions
-        based ONLY on the video transcript summaries and context provided below.
+            """You are an expert video assistant.
 
-        If the answer is not found in the provided context, say:
-        "I could not find this information in the video transcript summaries."
+            Answer the user's questions using ONLY the provided video transcript context.
 
-        Do not make up information or use external knowledge.
+            Rules:
+            - Do NOT use Markdown.
+            - Do NOT use **bold**, *italics*, headings, code blocks, or special formatting.
+            - Respond in plain text only.
+            - Use short paragraphs when needed.
+            - If listing multiple points, use simple numbered lists (1., 2., 3.) or hyphens (-).
+            - Do not use emojis.
+            - Do not use external knowledge.
+            - If the answer is not present in the provided context, reply exactly:
+            "I could not find this information in the video transcript."
 
-        Always be concise, accurate, and relevant. If the video mentions a speaker,
-        creator, or presenter, clearly attribute statements to them when appropriate.
+            Always answer in a way that looks like a normal chat response.
+            Avoid unnecessary formatting.
+            Keep paragraphs short and readable.
+            If the video mentions a speaker or presenter, attribute statements appropriately.
 
-        Context from video transcript summaries:
-        {context}"""
+            Video Context:
+            {context}"""
         ), ("human", "{question}")]
     )
 

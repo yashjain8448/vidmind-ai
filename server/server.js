@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
-const {MongoStore} = require("connect-mongo");
+const { MongoStore } = require("connect-mongo");
 const passport = require("passport");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
@@ -10,6 +10,7 @@ const videoRoutes = require("./routes/videoRoutes");
 require("dotenv").config();
 
 const app = express();
+app.set("trust proxy", 1);
 
 connectDB(); // Connect to MongoDB
 
@@ -17,7 +18,7 @@ require("./config/passport");
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://vidmind-ai-teal.vercel.app"],
     credentials: true, // so that cookies can be sent with requests cross-origin
   }),
 );
@@ -37,7 +38,9 @@ app.use(
     }),
 
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   }),
 );
